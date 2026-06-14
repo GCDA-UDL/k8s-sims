@@ -27,6 +27,17 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 │   ├── opensim/          # OpenSimulator (Alibaba)
 │   │   ├── module.sh
 │   │   └── cmd           # Pre-built OpenSim binary
+│   ├── k8ssim/           # K8sSim — Volcano scheduler simulator (opt-in, GCD-UdL)
+│   │   ├── module.sh
+│   │   ├── k8ssim_driver.py   # stdlib HTTP driver
+│   │   ├── scheduler_conf/    # Volcano scheduling configs (GANG/DRF/SLA × LRP/MRP/BRA…)
+│   │   └── README.md
+│   ├── kcs/              # pfn k8s-cluster-simulator (opt-in, GCD-UdL)
+│   │   ├── module.sh
+│   │   ├── kcs_config.py      # nodes-N.yaml → pfn config.yaml
+│   │   ├── build.sh           # build kcs-yamlsim from pinned commit
+│   │   ├── sim/{main,submitter}.go  # custom YAML-workload entry point
+│   │   └── README.md
 │   ├── vanilla/          # Real Kubernetes (experimental)
 │   │   └── module.sh
 │   └── template/         # Copy-paste template for new modules
@@ -38,6 +49,10 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 │   ├── benchmark-gen.sh  # Benchmark dataset generation helper
 │   ├── simkube-tracer.sh # SimKube trace collection wrapper
 │   ├── validate-checkpoint.sh  # Multi-stage validation harness
+│   ├── trace-convert/    # Google Borg + Azure trace → base manifests (GCD-UdL)
+│   │   ├── borg2base.py
+│   │   ├── azure2base.py
+│   │   └── samples/      # tiny synthetic CSVs in the documented schemas
 │   └── base/             # Static manifests (hollow-node YAML, etc.)
 ├── data/                 # Input datasets (test, small, medium, big)
 ├── results/              # Output CSV files (gitignored by default)
@@ -57,6 +72,11 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 ├── SECURITY.md           # Privileged execution and safety guidance
 ├── SIM_MODULES.md        # Simulator inventory and dependency status
 ├── DATASETS.md           # Dataset categories and retention policy
+├── REPRODUCIBILITY_REPORT.md  # Phase-1 reproducibility verification (GCD-UdL)
+├── CHANGELOG.md          # Changes since v0.1 (GCD-UdL)
+├── results-repro/        # Evidence: CSVs, summaries, plots, Volcano sweep (GCD-UdL)
+├── summaries/            # summary.json + preserved summary.matias-big.json
+├── .gitattributes        # Force LF for shell/py/yaml (CRLF broke container sourcing)
 ├── .gitignore
 ├── .dockerignore
 └── ARCHITECTURE.md       # This document
@@ -126,14 +146,22 @@ Each module (`modules/<name>/module.sh`) exposes a standard interface consumed b
 | simkube | SimKube (trace replay) | `kind`, `kubectl`, Prometheus | `trace-*.sktrace` |
 | opensim | OpenSimulator | `cgexec`, host cgroups | `simon-config-*.yaml` |
 | vanilla | Real Kubernetes | `kind`, `kubectl` | `vanilla/` datasets |
+| k8ssim | K8sSim (Volcano scheduler) | Volcano sim binary, `cgexec`, python3 | `k8ssim/` (cluster nodes + Volcano Jobs) |
+| kcs | pfn k8s-cluster-simulator (discrete-event) | kcs-yamlsim binary, `cgexec`, python3 | `vanilla/` datasets (config generated) |
 
 ### 3.5. Dataset Generator
 
 **Name**: utils/kube-gen.py
 
-**Description**: Transforms Alibaba cluster traces into simulator-specific YAML pod/node manifests. Supports configurable node counts, iterations, and output paths (including paths with spaces).
+**Description**: Transforms Alibaba cluster traces into simulator-specific YAML pod/node manifests. Supports configurable node counts, iterations, and output paths (including paths with spaces). The `--kubemark`/`--simkube`/`--open_sim` flags emit the per-simulator variants; **`--k8ssim`** (GCD-UdL) emits the K8sSim Volcano format (cluster nodes + Volcano Jobs).
 
 **Technologies**: Python 3.12, PyYAML
+
+### 3.5.1. Trace converters (GCD-UdL)
+
+**Name**: utils/trace-convert/{borg2base.py, azure2base.py}
+
+**Description**: Convert **Google Borg** (`google/cluster-data`, ClusterData2011) and **Azure** (`Azure/AzurePublicDataset` vmtable) traces into the same base manifest format (`nodes-*.yaml` + `pods-*.yaml`) used by `utils/base`, so every simulator and `kube-gen.py` consume non-Alibaba workloads with no further changes. Tiny synthetic samples for offline testing live in `utils/trace-convert/samples/`. See [utils/trace-convert/README.md](../utils/trace-convert/README.md).
 
 ### 3.6. Result Plotter
 
@@ -251,11 +279,11 @@ Each module (`modules/<name>/module.sh`) exposes a standard interface consumed b
 
 **Project Name**: k8s-sims
 
-**Repository URL**: https://github.com/TheSmuks/k8s-sims
+**Repository URL**: https://github.com/GCDA-UDL/k8s-sims (GCD-UdL fork) · upstream https://github.com/TheSmuks/k8s-sims (v0.1, Matias Medina)
 
-**Primary Contact**: TheSmuks
+**Primary Contact**: GCD-UdL (Distributed Computing Group, Universitat de Lleida)
 
-**Date of Last Update**: 2026-06-09
+**Date of Last Update**: 2026-06-15
 
 ## 11. Glossary / Acronyms
 
@@ -266,6 +294,11 @@ Each module (`modules/<name>/module.sh`) exposes a standard interface consumed b
 | SimKube | Trace-based Kubernetes simulator |
 | Kubemark | Kubernetes hollow-node benchmarking tool |
 | OpenSim | OpenSimulator (Alibaba) for cgroup-based scheduling simulation |
+| K8sSim | LINC-BIT Kubernetes/Volcano scheduler simulator (covers Volcano) |
+| Volcano | Batch scheduler for Kubernetes (gang/DRF/SLA scheduling) |
+| kcs | pfn k8s-cluster-simulator — discrete-event scheduler simulator |
+| Borg | Google cluster manager; its public traces (`google/cluster-data`) |
+| Azure trace | Azure Public Dataset VM traces (`Azure/AzurePublicDataset`) |
 | bats | Bash Automated Testing System |
 | TAP | Test Anything Protocol |
 | CRLF | Carriage Return + Line Feed (Windows line endings) |
