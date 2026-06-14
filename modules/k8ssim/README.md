@@ -87,11 +87,31 @@ modules use), so each data point is a pair under `data/<size>/k8ssim/`:
 - `workload-<N>.yaml` — a `jobs:` list of Volcano `batch.volcano.sh/v1alpha1` Jobs.
 
 ⚠️ Workloads request `nvidia.com/gpu`, so the node set **must** declare GPU
-capacity or every job is unschedulable. The bundled samples here come from the
-upstream repo (`nodes_7-0` family + AI workloads), which are GPU-capable and tiny
-(5 nodes) — enough to validate integration. Generating large, Alibaba-derived
-Volcano datasets via `utils/kube-gen.py` (a `--k8ssim`/Volcano emitter) is the
-documented next step; the node + Volcano-Job transformation is non-trivial.
+capacity or every job is unschedulable. The committed `data/{test,small}/k8ssim`
+samples come from the upstream repo (`nodes_7-0` family + AI workloads), which are
+GPU-capable and tiny (5 nodes) — enough for a fast smoke test.
+
+### Generating Alibaba-scale datasets with kube-gen.py
+
+`utils/kube-gen.py --k8ssim` converts the same Alibaba-derived base manifests the
+other simulators use into the K8sSim formats (Node → `cluster:`,
+`cpu 64000m`→`64`, `memory Mi`→bytes, `alibabacloud.com/gpu-count`→`nvidia.com/gpu`;
+each bin-packed Pod → a single-task Volcano Job with `jobTaskNumber` and
+`nvidia.com/gpu` requests/limits the simulator reads):
+
+```sh
+python utils/kube-gen.py --k8ssim -c 100 -i 100 -o data/small/k8ssim
+# -> data/small/k8ssim/nodes-100.yaml (cluster) + workload-100.yaml (Volcano Jobs)
+```
+
+The pods are bin-packed onto the node slice first (same as the other modules), so
+the workload fits CPU/memory. **Verified** end-to-end: a generated 100-node /
+**1067-Volcano-job** dataset schedules under GANG_LRP via `kube-run.sh`
+(`Completed: True`, all returned jobs scheduled). K8sSim is a pure scheduling
+simulator (jobs complete in simulated time and free their GPUs), so it is very
+fast and light: `run_time ~6 s`, peak RSS `~0.11 GB`. Note the harness samples
+`memory.current` once per second, which under-reports such a fast run as
+`~0.01 GB`; read `/sys/fs/cgroup/k8ssim/memory.peak` for the true peak.
 
 ## Usage
 
