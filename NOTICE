@@ -1,0 +1,37 @@
+k8s-sims
+Copyright 2025-2026 Universitat de Lleida (GCD-UdL — Distributed Computing Group)
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Original work
+-------------
+The toolkit (v0.1) was created by Matias Medina (TFG, Universitat de Lleida, 2025),
+originally published at https://github.com/TheSmuks/k8s-sims (Apache-2.0). This
+repository is the GCD-UdL continuation/fork; see CHANGELOG.md for changes.
+
+Bundled third-party artifact
+----------------------------
+- modules/opensim/cmd : a pre-built binary of Alibaba OpenSimulator
+  ("open-simulator"), https://github.com/alibaba/open-simulator (Apache-2.0).
+
+Integrated simulators (built from source, NOT redistributed here)
+-----------------------------------------------------------------
+These tools are downloaded/built from their own upstream repositories by the
+respective modules; their source is not included in this repository and remains
+under their own licenses:
+- KWOK — https://github.com/kubernetes-sigs/kwok (Apache-2.0)
+- Kubemark / kube-scheduler-simulator — https://github.com/kubernetes-sigs/... (Apache-2.0)
+- SimKube — https://github.com/acrlabs/simkube (MIT)
+- K8sSim (Volcano simulator) — https://github.com/LINC-BIT/k8sSimulator (Apache-2.0)
+- pfn k8s-cluster-simulator — https://github.com/pfnet-research/k8s-cluster-simulator (Apache-2.0)
+
+Workload traces
+---------------
+Datasets are derived from public cluster traces (Alibaba clusterdata; Google
+cluster-data / Borg; Azure Public Dataset) under their respective terms; the
+trace data itself is not redistributed here (see utils/trace-convert/).
+
+Funding
+-------
+This work has been granted by the Ministerio de Ciencia, Innovación y
+Universidades (MICIU) AEI/10.13039/501100011033 under contract PID2023-146193OB-I00.

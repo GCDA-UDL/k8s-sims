@@ -39,6 +39,21 @@ On top of the original five simulators it adds:
 > via `docker compose up` / `kube-director.sh` as below. The two new simulators
 > are opt-in (need a binary built from source) — see their module READMEs.
 
+## Citing
+
+If you use this toolkit, please cite it via the metadata in
+[`CITATION.cff`](CITATION.cff). A versioned DOI is archived on Zenodo:
+
+> _DOI: 10.5281/zenodo.XXXXXXX_ (added on first Zenodo release; corresponding
+> author: Vitor da Silva, vitor.dasilva@udl.cat).
+
+Attribution for the original work and bundled/integrated simulators is in
+[`NOTICE`](NOTICE). Licensed under Apache-2.0 ([`LICENSE`](LICENSE)).
+
+## Funding
+
+This work has been granted by the Ministerio de Ciencia, Innovación y Universidades (MICIU) AEI/10.13039/501100011033 under contract PID2023-146193OB-I00.
+
 ## Original guide
 
 Specs of the computer where the simulations were run.

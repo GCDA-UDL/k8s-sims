@@ -1,0 +1,46 @@
+# Authors: 3 (per maintainer decision). Order maximises first-author +
+# corresponding-author credit for da Silva (accreditation), with Medina credited
+# as original author (v0.1) and Lérida as senior/PI (last). Confirm Medina's full
+# legal name + ORCID before publishing the DOI.
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "k8s-sims: a benchmarking toolkit for Kubernetes scheduler simulators"
+abstract: >-
+  k8s-sims orchestrates and benchmarks Kubernetes scheduler simulators
+  (kwok, OpenSimulator, kube-scheduler-simulator, SimKube, Kubemark, K8sSim/Volcano,
+  and the pfn k8s-cluster-simulator) over Alibaba, Google Borg, and Azure cluster
+  traces, reporting CPU, memory, run time, and scheduling outcomes. Developed by
+  the GCD-UdL group as the experimental artifact of a survey on Kubernetes
+  simulation tools.
+type: software
+authors:
+  - given-names: Vitor
+    family-names: da Silva
+    orcid: "https://orcid.org/0000-0002-3296-2752"
+    email: vitor.dasilva@udl.cat
+    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+  - given-names: Matias
+    family-names: Medina
+    affiliation: "Universitat de Lleida"
+    # original author of v0.1 (TFG UdL 2025) — confirm full name + ORCID
+  - given-names: Josep Lluís
+    family-names: Lérida
+    orcid: "https://orcid.org/0000-0002-9352-9338"
+    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+contact:
+  - given-names: Vitor
+    family-names: da Silva
+    email: vitor.dasilva@udl.cat
+    orcid: "https://orcid.org/0000-0002-3296-2752"
+license: Apache-2.0
+repository-code: "https://github.com/GCDA-UDL/k8s-sims"
+version: 0.2.0
+date-released: "2026-06-15"
+keywords:
+  - Kubernetes
+  - scheduler simulation
+  - cluster simulator
+  - Volcano
+  - benchmarking
+  - reproducibility
+  - cluster traces
