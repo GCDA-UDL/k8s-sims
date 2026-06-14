@@ -1,0 +1,15 @@
+# Force LF for everything sourced/executed inside the Linux (Alpine) container.
+# A stray CR makes bash function definitions vanish ("command not found") and
+# breaks the mock shims ("exit: 0: numeric argument required"). See REPRODUCIBILITY_REPORT.md §4.4.
+*.sh    text eol=lf
+*.bash  text eol=lf
+*.bats  text eol=lf
+*.conf  text eol=lf
+*.py    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+entrypoint.sh   text eol=lf
+SIM_MODULES     text eol=lf
+
+# Precompiled OpenSimulator binary — never normalize.
+modules/opensim/cmd binary

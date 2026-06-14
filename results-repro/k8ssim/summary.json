@@ -1,0 +1,29 @@
+{
+    "k8ssim": {
+        "total_cpu_seconds": {
+            "min": 0.0,
+            "avg": 0.0,
+            "max": 0.0
+        },
+        "user_cpu_seconds": {
+            "min": 0.0,
+            "avg": 0.0,
+            "max": 0.0
+        },
+        "system_cpu_seconds": {
+            "min": 0.0,
+            "avg": 0.0,
+            "max": 0.0
+        },
+        "memory_peak_gb": {
+            "min": 0.01,
+            "avg": 0.01,
+            "max": 0.01
+        },
+        "run_time": {
+            "min": 6.0,
+            "avg": 6.0,
+            "max": 6.0
+        }
+    }
+}

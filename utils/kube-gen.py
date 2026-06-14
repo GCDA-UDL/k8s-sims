@@ -373,6 +373,158 @@ def generate_simon_config(output_folder: str, count: int, simon_template: dict, 
 
 
 # ---------------------------------------------------------------------------
+# K8sSim (Volcano) emitter
+# ---------------------------------------------------------------------------
+# K8sSim consumes its own formats (not k8s Node/Pod): a `cluster:` node list and
+# a `jobs:` list of Volcano Jobs. These helpers convert the Alibaba-derived
+# manifests (already bin-packed onto the node slice) into those formats so the
+# k8ssim module can run real Alibaba-scale workloads. See modules/k8ssim/.
+
+
+def _cpu_to_cores(value: Any) -> float:
+    """'64000m' -> 64.0, '8' -> 8.0, 8 -> 8.0."""
+    s = str(value).strip()
+    if s.endswith("m"):
+        return round(int(s[:-1]) / 1000.0, 3)
+    return float(s)
+
+
+def _mem_to_bytes(value: Any) -> int:
+    """'262144Mi' -> bytes, '512Gi' -> bytes, '8348393472' -> int."""
+    s = str(value).strip()
+    units = {"Ki": 1024, "Mi": 1024**2, "Gi": 1024**3, "Ti": 1024**4,
+             "K": 1000, "M": 1000**2, "G": 1000**3, "T": 1000**4}
+    for suffix, mult in units.items():
+        if s.endswith(suffix):
+            return int(float(s[:-len(suffix)]) * mult)
+    return int(float(s))
+
+
+def _gpu_count(resource_map: dict) -> int:
+    """Extract GPU count from an Alibaba allocatable/capacity or pod annotation map."""
+    for key in ("nvidia.com/gpu", "alibabacloud.com/gpu-count"):
+        if key in resource_map:
+            try:
+                return int(float(resource_map[key]))
+            except (TypeError, ValueError):
+                return 0
+    return 0
+
+
+def _node_to_cluster_entry(node: dict) -> dict:
+    """Convert a k8s Node manifest into a K8sSim `cluster:` entry."""
+    meta = node.get("metadata", {})
+    status = node.get("status", {})
+    alloc = status.get("allocatable", {})
+    cap = status.get("capacity", {})
+
+    def conv(res: dict) -> dict:
+        out = {
+            "cpu": _cpu_to_cores(res.get("cpu", "0")),
+            "memory": _mem_to_bytes(res.get("memory", "0")),
+            "pods": int(float(res.get("pods", 110))),
+        }
+        gpu = _gpu_count(res)
+        if gpu:
+            out["nvidia.com/gpu"] = gpu
+        return out
+
+    labels = dict(meta.get("labels", {}))
+    labels.setdefault("beta.kubernetes.io/os", "simulated")
+    labels.setdefault("linc/nodeType", "cloud")
+
+    return {
+        "metadata": {"name": meta.get("name"), "labels": labels},
+        "spec": {"unschedulable": False},
+        "status": {"allocatable": conv(alloc), "capacity": conv(cap)},
+    }
+
+
+def _pod_to_volcano_job(pod: dict, sub_time: int) -> dict:
+    """Convert a k8s Pod manifest into a single-task Volcano Job."""
+    meta = pod.get("metadata", {})
+    name = meta.get("name", "job")
+    annotations = meta.get("annotations", {})
+    containers = pod.get("spec", {}).get("containers", [{}])
+    c0 = containers[0] if containers else {}
+    res = c0.get("resources", {})
+    req = dict(res.get("requests", {}))
+    lim = dict(res.get("limits", {}))
+
+    gpu = _gpu_count(annotations) or _gpu_count(req) or _gpu_count(lim)
+
+    def res_block(src: dict) -> dict:
+        block = {
+            "cpu": str(_cpu_to_cores(src.get("cpu", "1"))),
+            "memory": str(src.get("memory", "1024Mi")),
+            # K8sSim's driver always reads requests/limits["nvidia.com/gpu"],
+            # so the key must always be present (0 when the pod has no GPU).
+            "nvidia.com/gpu": gpu,
+        }
+        return block
+
+    replicas = 1
+    return {
+        "apiVersion": "batch.volcano.sh/v1alpha1",
+        "kind": "Job",
+        "metadata": {"labels": {"sub-time": str(sub_time)}, "name": name, "namespace": "default"},
+        "spec": {
+            "minAvailable": replicas,
+            "policies": [{"action": "CompleteJob", "event": "TaskCompleted"}],
+            "schedulerName": "volcano",
+            "tasks": [{
+                "name": "task",
+                "policies": [{"action": "CompleteJob", "event": "TaskCompleted"}],
+                "replicas": replicas,
+                "template": {
+                    "metadata": {"labels": {
+                        "app": "linc-workload", "job": name,
+                        "jobTaskNumber": str(replicas), "restartTime": "300",
+                        "restartLimit": "8", "terminationTime": "300", "terminationLimit": "0",
+                    }},
+                    "spec": {
+                        "containers": [{
+                            "name": "task",
+                            "image": c0.get("image", "tensorflow:latest"),
+                            "imagePullPolicy": "IfNotPresent",
+                            "command": ["python3", "train.py", "--epochs=2"],
+                            "resources": {"limits": res_block(lim or req), "requests": res_block(req or lim)},
+                        }],
+                        "restartPolicy": "OnFailure",
+                    },
+                },
+            }],
+        },
+    }
+
+
+def generate_k8ssim_files(
+    output_folder: str, count: int, nodes_raw: list[dict], selected_pods: list[dict]
+) -> None:
+    """Write K8sSim nodes-<count>.yaml (cluster) and workload-<count>.yaml (Volcano Jobs).
+
+    Overwrites the k8s-format nodes/pods that generate_increment wrote for this
+    increment and removes the now-unused pods-<count>.yaml.
+    """
+    cluster = [_node_to_cluster_entry(n) for n in nodes_raw if n]
+    jobs = [_pod_to_volcano_job(p, i + 1) for i, p in enumerate(selected_pods) if p]
+
+    nodes_path = os.path.join(output_folder, f"nodes-{count}.yaml")
+    with open(nodes_path, "w") as f:
+        yaml.dump({"cluster": cluster}, f, default_flow_style=False, sort_keys=False)
+
+    workload_path = os.path.join(output_folder, f"workload-{count}.yaml")
+    with open(workload_path, "w") as f:
+        yaml.dump({"jobs": jobs}, f, default_flow_style=False, sort_keys=False)
+
+    stale_pods = os.path.join(output_folder, f"pods-{count}.yaml")
+    if os.path.exists(stale_pods):
+        os.remove(stale_pods)
+
+    print_msg(f"K8sSim: {len(cluster)} nodes, {len(jobs)} Volcano jobs.", True)
+
+
+# ---------------------------------------------------------------------------
 # Animation helper
 # ---------------------------------------------------------------------------
 
@@ -445,6 +597,8 @@ def main(args: argparse.Namespace) -> None:
         new_node_path = os.path.abspath(args.new_node_path)
         shutil.copyfile(new_node_path, os.path.join(output_folder, "new-node.yaml"))
         simon_template = get_yaml_file(os.path.join(script_dir, "base", "simon-config.yaml"))
+    elif args.k8ssim:
+        simulator = "K8sSim"  # no kustomize overlay; conversion happens post-binpack
 
     if simulator:
         print_msg(f"{simulator} selected.")
@@ -484,7 +638,7 @@ def main(args: argparse.Namespace) -> None:
             generate_simon_config(output_folder, rounded_qty, simon_template, args.new_node_path)
 
         # Generate increment using binpack module
-        _, selected_pods, placement = generate_increment(
+        selected_nodes, selected_pods, placement = generate_increment(
             nodes_raw=nodes_raw,
             pods_raw=pods_raw,
             start_pos=start_pos,
@@ -494,6 +648,10 @@ def main(args: argparse.Namespace) -> None:
             trace_config=trace_config if args.tracer else None,
             timestamp=int(time.time()),
         )
+
+        # K8sSim: rewrite the increment into Volcano formats (cluster + Jobs)
+        if args.k8ssim:
+            generate_k8ssim_files(output_folder, rounded_qty, selected_nodes, selected_pods)
 
         # Track placed pods and prune from pool for next increment
         placed_names = {p["metadata"]["name"] for p in selected_pods if p and "metadata" in p}
@@ -541,6 +699,7 @@ if __name__ == "__main__":
     parser.add_argument("-k", "--kubemark", default=False, action="store_true", help="Applies the kubemark patches to the generated files")
     parser.add_argument("-s", "--simkube", default=False, action="store_true", help="Applies the simkube patches to the generated files")
     parser.add_argument("-os", "--open_sim", default=False, action="store_true", help="Generates files with the OpenSimulator format")
+    parser.add_argument("-ks", "--k8ssim", default=False, action="store_true", help="Generates K8sSim/Volcano files (cluster nodes + Volcano Jobs)")
     parser.add_argument("-t", "--tracer", default=False, action="store_true", help="Generates SimKube .sktrace files directly (no cluster needed)")
     parser.add_argument("-e", "--run_experiments", default=False, action="store_true", help="Indicates whether to run experiments after generating the datasets.")
     parser.add_argument("-a", "--kube_director_arguments", type=str, default="-n 3 -p", help="Arguments to be passed to KubeDirector if run experiments is enabled.")
