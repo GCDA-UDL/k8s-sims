@@ -19,7 +19,13 @@ create_cluster(){
 cluster_setup(){
     local CONFIG_PATH="$LOCAL_PATH/config"
     kind get kubeconfig --name "$CLUSTER_NAME" > "$CONFIG_PATH"
-    #sed -i 's|server: https://127.0.0.1:[0-9]\+|server: https://kubernetes.default.svc:443|' "$LOCAL_PATH/config"
+    # Rewrite the API-server address to the in-cluster Service endpoint so the
+    # hollow-node kubelets (running as pods inside the kind cluster) can reach
+    # the API server. Without this, the kubeconfig keeps `https://127.0.0.1:<port>`
+    # which resolves to the hollow-node pod itself, so no fake node ever registers
+    # and every workload pod stays Pending (unscheduled). Verified: with this line
+    # the hollow node registers as `Ready` and pods schedule.
+    sed -i 's|server: https://127.0.0.1:[0-9]\+|server: https://kubernetes.default.svc:443|' "$CONFIG_PATH"
     kubectl config use-context "kind-$CLUSTER_NAME"
     kubectl create ns "$NAMESPACE"
     kubectl create ns "kubemark"
