@@ -43,7 +43,7 @@ Usage: $(basename "$0") -e EXPERIMENT_PATH -m SIMULATION_MODE [options]
 
 Required arguments:
   -e EXPERIMENT_PATH   Path to experiment files directory
-  -m SIMULATION_MODE   Simulator: simkube, kube-sched, kubemark, kwok, opensim
+  -m SIMULATION_MODE   Simulator: simkube, kube-sched, kubemark, kwok, opensim, k8ssim
 
 Optional arguments:
   -n RUNS              Number of runs per experiment (default: $DEFAULT_RUNS)
@@ -143,7 +143,7 @@ parse_args() {
         exit 1
     fi
 
-    if [[ ! "$SIMULATION_MODE" =~ ^(simkube|kube-sched|kubemark|kwok|opensim|vanilla)$ ]]; then
+    if [[ ! "$SIMULATION_MODE" =~ ^(simkube|kube-sched|kubemark|kwok|opensim|vanilla|k8ssim)$ ]]; then
         log ERROR "Unsupported simulator '$SIMULATION_MODE'" >&2
         usage
         exit 1
