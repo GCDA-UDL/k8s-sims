@@ -18,6 +18,7 @@
 |---|---|---|
 | `vanilla` | Experimental | Module exists for real kind/Kubernetes runs, but it is not listed in `SIM_MODULES` by default. It requires stronger host isolation and manual verification. |
 | `k8ssim` | Opt-in (Volcano) | `modules/k8ssim/module.sh`. The only simulator that covers the **Volcano** scheduler (gang/DRF/SLA × LRP/MRP/BRA/BINPACK). Process-under-cgroup model like `opensim`; needs the Volcano simulator binary built from pinned commit `7168cb3` and its own `data/<size>/k8ssim/{nodes,workload}-<N>.yaml` format (Volcano Jobs, GPU). Not in the default `SIM_MODULES` because it needs the binary + a different dataset and the director aborts the batch on first failure. See `modules/k8ssim/README.md`. |
+| `kcs` | Opt-in (pfn) | `modules/kcs/module.sh`. Preferred Networks' **discrete-event** scheduler simulator (`pfnet-research/k8s-cluster-simulator`, pinned `55e4108`), models pod execution over simulated time. Process-under-cgroup like `opensim`; **reuses the standard `data/<size>/vanilla` datasets** (a generated config + `pods-<N>.yaml`), no new dataset format. Custom Go entry point in `modules/kcs/sim/`; build via `modules/kcs/build.sh`. See `modules/kcs/README.md`. |
 | `k8s` | Legacy naming | `kube-director.sh` still recognizes a `k8s` data-path branch for compatibility, but it is not an active module name. |
 
 ## Result preservation policy
