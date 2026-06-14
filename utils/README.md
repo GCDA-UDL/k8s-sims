@@ -41,8 +41,23 @@ options:
 Example (SimKube with tracer):
   python utils/kube-gen.py --simkube -t -c 100 -i 25 -o output/test/
 ```
+Additional `kube-gen.py` flag (GCD-UdL): **`--k8ssim`** emits the K8sSim Volcano
+format (cluster nodes + Volcano Jobs) instead of plain pods.
+
 ## Plotter
-[plotter.py](plotter.py) is a script that can be used to plot the results of the simulation.
+[kube-plot.py](kube-plot.py) reads result CSVs and plots the simulation results.
 ```text
-usage: plotter.py [-h] -d DATA_DIRECTORY [-o OUTPUT_DIR]
+usage: kube-plot.py [-h] -d DATA_DIRECTORY [-o OUTPUT_DIR]
 ```
+
+## Aggregator
+[min-max-avg.py](min-max-avg.py) aggregates result CSVs into a `summary.json`
+(min/avg/max per simulator), the format of the reference `summaries/summary.json`.
+```text
+usage: min-max-avg.py [-h] -d DATA_DIRECTORY [-o OUTPUT_DIR]
+```
+
+## Trace converters (GCD-UdL)
+[trace-convert/](trace-convert/README.md) converts **Google Borg** and **Azure**
+traces into the toolkit's base manifest format so non-Alibaba workloads run
+through every simulator unchanged.

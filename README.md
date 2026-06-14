@@ -2,6 +2,45 @@
 
 # K8s-sims
 K8sims is a repository containing a guide on how to run a selected number of Kubernetes simulators.
+
+## About this fork (GCD-UdL)
+
+This is the **GCD-UdL** (Distributed Computing Group, Universitat de Lleida)
+continuation of Matias Medina's original toolkit (TFG UdL 2025, tagged **`v0.1`**).
+On top of the original five simulators it adds:
+
+- **Reproducibility verification + fixes** — the benchmark was confirmed
+  reproducible on Docker Desktop / WSL2 (cgroup v2); a silent **kubemark**
+  scheduling bug was fixed, `.gitattributes` added. See
+  [REPRODUCIBILITY_REPORT.md](REPRODUCIBILITY_REPORT.md).
+- **Two new simulators** (opt-in): **K8sSim** — the only one covering the
+  **Volcano** scheduler ([modules/k8ssim](modules/k8ssim/README.md)) — and
+  **kcs**, Preferred Networks' discrete-event simulator
+  ([modules/kcs](modules/kcs/README.md)). 7 simulators total.
+- **Two new workload sources** beyond Alibaba: **Google Borg** and **Azure**
+  trace converters ([utils/trace-convert](utils/trace-convert/README.md)).
+
+### Documentation map
+
+| Topic | Document |
+|---|---|
+| Run the simulators (this guide) | `README.md` |
+| Architecture & code layout | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Simulator inventory & status (incl. opt-in k8ssim/kcs) | [SIM_MODULES.md](SIM_MODULES.md) |
+| Datasets, trace sources & retention | [DATASETS.md](DATASETS.md) |
+| Reproducibility report (Phase 1) | [REPRODUCIBILITY_REPORT.md](REPRODUCIBILITY_REPORT.md) |
+| Changes since v0.1 | [CHANGELOG.md](CHANGELOG.md) |
+| K8sSim / Volcano module | [modules/k8ssim/README.md](modules/k8ssim/README.md) |
+| kcs (pfn) module | [modules/kcs/README.md](modules/kcs/README.md) |
+| Borg / Azure trace converters | [utils/trace-convert/README.md](utils/trace-convert/README.md) |
+| Volcano scheduler sweep results | [results-repro/k8ssim/VOLCANO_SWEEP.md](results-repro/k8ssim/VOLCANO_SWEEP.md) |
+
+> The original five simulators (kwok, opensim, kube-sched, simkube, kubemark) run
+> via `docker compose up` / `kube-director.sh` as below. The two new simulators
+> are opt-in (need a binary built from source) — see their module READMEs.
+
+## Original guide
+
 Specs of the computer where the simulations were run.
 ```
 OS: Alpine Linux v3.22
