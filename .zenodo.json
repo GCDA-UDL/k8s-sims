@@ -13,7 +13,7 @@
     { "name": "Lérida, Josep Lluís", "orcid": "0000-0002-9352-9338", "affiliation": "Universitat de Lleida" }
   ],
   "license": "Apache-2.0",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "keywords": [
     "Kubernetes",
     "scheduler simulation",
