@@ -3,9 +3,9 @@
 # K8s-sims
 K8sims is a repository containing a guide on how to run a selected number of Kubernetes simulators.
 
-## About this fork (GCD-UdL)
+## About this fork (GCDA)
 
-This is the **GCD-UdL** (Distributed Computing Group, Universitat de Lleida)
+This is the **GCDA** (Grupo de Computación Distribuida y Avanzada, Universitat de Lleida)
 continuation of Matias Medina's original toolkit (TFG UdL 2025, tagged **`v0.1`**).
 On top of the original five simulators it adds:
 

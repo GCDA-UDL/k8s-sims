@@ -1,6 +1,6 @@
 # k8s-sims — Reproducibility Report (Phase 1)
 
-**Author of the verification:** GCD-UdL (survey + benchmark on Kubernetes simulation tools)
+**Author of the verification:** GCDA (survey + benchmark on Kubernetes simulation tools)
 **Toolkit under test:** `k8s-sims` (M. Medina, TFG UdL 2025) — image `thesmuks/k8s-sims:latest`
 **Date:** 2026-06-14
 **Branch:** `repro-and-new-sims`

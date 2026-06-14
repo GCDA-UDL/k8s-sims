@@ -5,7 +5,7 @@
 The base manifests (`utils/base/{nodes,pods}.yaml`) the generator slices are
 derived from the **Alibaba** cluster trace (2023 GPU). Two more public sources
 are supported via converters that emit the **same** base format, so every
-simulator and `kube-gen.py` consume them unchanged (GCD-UdL addition):
+simulator and `kube-gen.py` consume them unchanged (GCDA addition):
 
 | Source | Origin | Converter |
 |---|---|---|

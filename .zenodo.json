@@ -1,15 +1,15 @@
 {
   "title": "k8s-sims: a benchmarking toolkit for Kubernetes scheduler simulators",
   "upload_type": "software",
-  "description": "k8s-sims orchestrates and benchmarks Kubernetes scheduler simulators (kwok, OpenSimulator, kube-scheduler-simulator, SimKube, Kubemark, K8sSim/Volcano, and the pfn k8s-cluster-simulator) over Alibaba, Google Borg, and Azure cluster traces, reporting CPU, memory, run time, and scheduling outcomes. Developed by the GCD-UdL group (Distributed Computing Group, Universitat de Lleida) as the experimental artifact of a survey on Kubernetes simulation tools. Based on the original toolkit by Matias Medina (TFG UdL 2025, v0.1).",
+  "description": "k8s-sims orchestrates and benchmarks Kubernetes scheduler simulators (kwok, OpenSimulator, kube-scheduler-simulator, SimKube, Kubemark, K8sSim/Volcano, and the pfn k8s-cluster-simulator) over Alibaba, Google Borg, and Azure cluster traces, reporting CPU, memory, run time, and scheduling outcomes. Developed by the GCDA group (Grupo de Computación Distribuida y Avanzada, Universitat de Lleida) as the experimental artifact of a survey on Kubernetes simulation tools. Based on the original toolkit by Matias Medina (TFG UdL 2025, v0.1).",
   "creators": [
     {
-      "name": "da Silva, Vitor",
-      "orcid": "0000-0002-3296-2752",
+      "name": "Medina, Matias",
       "affiliation": "Universitat de Lleida"
     },
     {
-      "name": "Medina, Matias",
+      "name": "da Silva, Vitor",
+      "orcid": "0000-0002-3296-2752",
       "affiliation": "Universitat de Lleida"
     },
     {
