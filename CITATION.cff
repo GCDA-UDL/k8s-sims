@@ -53,6 +53,14 @@ contact:
     orcid: "https://orcid.org/0000-0002-3296-2752"
 license: Apache-2.0
 repository-code: "https://github.com/GCDA-UDL/k8s-sims"
+doi: 10.5281/zenodo.20694295
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20694295
+    description: "Concept DOI (all versions)"
+  - type: doi
+    value: 10.5281/zenodo.20694296
+    description: "Version DOI (v0.2.2)"
 version: 0.2.2
 date-released: "2026-06-15"
 keywords:
