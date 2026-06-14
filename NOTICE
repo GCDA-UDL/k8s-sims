@@ -1,5 +1,5 @@
 k8s-sims
-Copyright 2025-2026 Universitat de Lleida (GCD-UdL — Distributed Computing Group)
+Copyright 2025-2026 Universitat de Lleida (GCDA — Grupo de Computación Distribuida y Avanzada)
 
 This product is licensed under the Apache License, Version 2.0 (see LICENSE).
 
@@ -7,7 +7,7 @@ Original work
 -------------
 The toolkit (v0.1) was created by Matias Medina (TFG, Universitat de Lleida, 2025),
 originally published at https://github.com/TheSmuks/k8s-sims (Apache-2.0). This
-repository is the GCD-UdL continuation/fork; see CHANGELOG.md for changes.
+repository is the GCDA continuation/fork; see CHANGELOG.md for changes.
 
 Bundled third-party artifact
 ----------------------------

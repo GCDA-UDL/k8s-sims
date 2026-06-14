@@ -27,12 +27,12 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 │   ├── opensim/          # OpenSimulator (Alibaba)
 │   │   ├── module.sh
 │   │   └── cmd           # Pre-built OpenSim binary
-│   ├── k8ssim/           # K8sSim — Volcano scheduler simulator (opt-in, GCD-UdL)
+│   ├── k8ssim/           # K8sSim — Volcano scheduler simulator (opt-in, GCDA)
 │   │   ├── module.sh
 │   │   ├── k8ssim_driver.py   # stdlib HTTP driver
 │   │   ├── scheduler_conf/    # Volcano scheduling configs (GANG/DRF/SLA × LRP/MRP/BRA…)
 │   │   └── README.md
-│   ├── kcs/              # pfn k8s-cluster-simulator (opt-in, GCD-UdL)
+│   ├── kcs/              # pfn k8s-cluster-simulator (opt-in, GCDA)
 │   │   ├── module.sh
 │   │   ├── kcs_config.py      # nodes-N.yaml → pfn config.yaml
 │   │   ├── build.sh           # build kcs-yamlsim from pinned commit
@@ -49,7 +49,7 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 │   ├── benchmark-gen.sh  # Benchmark dataset generation helper
 │   ├── simkube-tracer.sh # SimKube trace collection wrapper
 │   ├── validate-checkpoint.sh  # Multi-stage validation harness
-│   ├── trace-convert/    # Google Borg + Azure trace → base manifests (GCD-UdL)
+│   ├── trace-convert/    # Google Borg + Azure trace → base manifests (GCDA)
 │   │   ├── borg2base.py
 │   │   ├── azure2base.py
 │   │   └── samples/      # tiny synthetic CSVs in the documented schemas
@@ -72,9 +72,9 @@ This document provides a rapid and comprehensive understanding of the k8s-sims c
 ├── SECURITY.md           # Privileged execution and safety guidance
 ├── SIM_MODULES.md        # Simulator inventory and dependency status
 ├── DATASETS.md           # Dataset categories and retention policy
-├── REPRODUCIBILITY_REPORT.md  # Phase-1 reproducibility verification (GCD-UdL)
-├── CHANGELOG.md          # Changes since v0.1 (GCD-UdL)
-├── results-repro/        # Evidence: CSVs, summaries, plots, Volcano sweep (GCD-UdL)
+├── REPRODUCIBILITY_REPORT.md  # Phase-1 reproducibility verification (GCDA)
+├── CHANGELOG.md          # Changes since v0.1 (GCDA)
+├── results-repro/        # Evidence: CSVs, summaries, plots, Volcano sweep (GCDA)
 ├── summaries/            # summary.json + preserved summary.matias-big.json
 ├── .gitattributes        # Force LF for shell/py/yaml (CRLF broke container sourcing)
 ├── .gitignore
@@ -153,11 +153,11 @@ Each module (`modules/<name>/module.sh`) exposes a standard interface consumed b
 
 **Name**: utils/kube-gen.py
 
-**Description**: Transforms Alibaba cluster traces into simulator-specific YAML pod/node manifests. Supports configurable node counts, iterations, and output paths (including paths with spaces). The `--kubemark`/`--simkube`/`--open_sim` flags emit the per-simulator variants; **`--k8ssim`** (GCD-UdL) emits the K8sSim Volcano format (cluster nodes + Volcano Jobs).
+**Description**: Transforms Alibaba cluster traces into simulator-specific YAML pod/node manifests. Supports configurable node counts, iterations, and output paths (including paths with spaces). The `--kubemark`/`--simkube`/`--open_sim` flags emit the per-simulator variants; **`--k8ssim`** (GCDA) emits the K8sSim Volcano format (cluster nodes + Volcano Jobs).
 
 **Technologies**: Python 3.12, PyYAML
 
-### 3.5.1. Trace converters (GCD-UdL)
+### 3.5.1. Trace converters (GCDA)
 
 **Name**: utils/trace-convert/{borg2base.py, azure2base.py}
 
@@ -279,9 +279,9 @@ Each module (`modules/<name>/module.sh`) exposes a standard interface consumed b
 
 **Project Name**: k8s-sims
 
-**Repository URL**: https://github.com/GCDA-UDL/k8s-sims (GCD-UdL fork) · upstream https://github.com/TheSmuks/k8s-sims (v0.1, Matias Medina)
+**Repository URL**: https://github.com/GCDA-UDL/k8s-sims (GCDA fork) · upstream https://github.com/TheSmuks/k8s-sims (v0.1, Matias Medina)
 
-**Primary Contact**: GCD-UdL (Distributed Computing Group, Universitat de Lleida)
+**Primary Contact**: GCDA (Grupo de Computación Distribuida y Avanzada), Universitat de Lleida
 
 **Date of Last Update**: 2026-06-15
 

@@ -1,11 +1,11 @@
 # Changelog
 
-All notable changes to the GCD-UdL fork of k8s-sims. The original toolkit by
+All notable changes to the GCDA fork of k8s-sims. The original toolkit by
 Matias Medina (TFG UdL 2025) is tagged **`v0.1`** and is the baseline below.
 
-## [Unreleased] — GCD-UdL (2026-06)
+## [Unreleased] — GCDA (2026-06)
 
-Continuation by GCD-UdL (Distributed Computing Group, Universitat de Lleida) of
+Continuation by GCDA (Grupo de Computación Distribuida y Avanzada), Universitat de Lleida of
 Matias Medina's toolkit. Verified reproducibility, fixed a silent benchmark bug,
 added two simulators and two trace sources. All work was validated on Docker
 Desktop / WSL2 (cgroup v2); see `REPRODUCIBILITY_REPORT.md` for evidence.
