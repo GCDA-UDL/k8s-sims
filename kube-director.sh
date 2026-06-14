@@ -157,7 +157,7 @@ trap cleanup SIGINT
 for i in "${!SIMULATORS[@]}"; do
     [[ -z "${SIMULATORS[i]}" ]] && continue
     log INFO "Starting experiments for ${SIMULATORS[i]}"
-    if [[ ${SIMULATORS[i]} =~ ^(kwok|kube-sched)$ ]]; then
+    if [[ ${SIMULATORS[i]} =~ ^(kwok|kube-sched|kcs)$ ]]; then
         DATA_PATH="${EXPERIMENT_FILES_PATH}/vanilla"
     elif [[ ${SIMULATORS[i]} = "k8s" ]]; then
         DATA_PATH="${EXPERIMENT_FILES_PATH}/k8s"

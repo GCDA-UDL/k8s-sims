@@ -143,7 +143,7 @@ parse_args() {
         exit 1
     fi
 
-    if [[ ! "$SIMULATION_MODE" =~ ^(simkube|kube-sched|kubemark|kwok|opensim|vanilla|k8ssim)$ ]]; then
+    if [[ ! "$SIMULATION_MODE" =~ ^(simkube|kube-sched|kubemark|kwok|opensim|vanilla|k8ssim|kcs)$ ]]; then
         log ERROR "Unsupported simulator '$SIMULATION_MODE'" >&2
         usage
         exit 1
