@@ -1,6 +1,6 @@
 # Author order (maintainer decision): Medina (original, v0.1); da Silva (second +
 # corresponding); Tomàs; Cores; Giné; Roig; Guirado (penultimate, senior weight);
-# Lérida (last, senior/PI). Medina has no ORCID yet (to add when registered).
+# Lérida (last, senior/PI).
 cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata."
 title: "k8s-sims: a benchmarking toolkit for Kubernetes scheduler simulators"
@@ -15,8 +15,9 @@ type: software
 authors:
   - given-names: Matias Nicolas
     family-names: Medina Jara
+    orcid: "https://orcid.org/0009-0000-2858-4317"
     affiliation: "Universitat de Lleida"
-    # original author of v0.1 (TFG UdL 2025); ORCID pending (not yet registered)
+    # original author of v0.1 (TFG UdL 2025)
   - given-names: Vitor
     family-names: da Silva
     orcid: "https://orcid.org/0000-0002-3296-2752"
