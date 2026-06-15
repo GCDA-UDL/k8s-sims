@@ -62,7 +62,7 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.20694296
     description: "Version DOI (v0.2.2)"
-version: 0.2.2
+version: 0.2.3
 date-released: "2026-06-15"
 keywords:
   - Kubernetes
