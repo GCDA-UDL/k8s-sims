@@ -11,8 +11,9 @@
 
 ## Open
 
-- [ ] Add **Matias Nicolas Medina Jara**'s ORCID to `CITATION.cff`, `.zenodo.json`,
-      and the Zenodo record once he registers one (orcid.org).
+- [x] Add **Matias Nicolas Medina Jara**'s ORCID (`0009-0000-2858-4317`) to
+      `CITATION.cff` + `.zenodo.json`. Still pending: add it to the published
+      Zenodo record (edit record metadata, same DOI).
 - [ ] Confirm with the FACTOS project / UAB whether any funding acknowledgment
       beyond MICIU `PID2023-146193OB-I00` must be added (shared-project check).
 
