@@ -1,0 +1,4 @@
+node_count|pod_count|timeout_reached|mem_exceeded|run_time|total_cpu_seconds|user_cpu_seconds|system_cpu_seconds|memory_peak_gb|unscheduled_pods
+4|400|0|0|21|20|17|2|0.42|0
+4|400|0|0|24|21|18|3|0.42|0
+4|400|0|0|22|20|18|3|0.42|0
