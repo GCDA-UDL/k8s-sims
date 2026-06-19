@@ -17,7 +17,7 @@
 #   ./download_traces.sh --borg --azure -o /data/traces
 #   ./download_traces.sh --azure               # just one source
 #
-# Tools: bash, wget, gunzip, git; gsutil for Borg (pip install gsutil).
+# Tools: bash, curl, gunzip, git; gsutil for Borg (pip install gsutil).
 set -euo pipefail
 
 TARGET="./traces"
@@ -60,10 +60,10 @@ fi
 # ---- Azure (AzurePublicDatasetV2 vmtable) ----------------------------------
 if [ "$DO_AZURE" = 1 ]; then
   echo "== Azure (AzurePublicDatasetV2 vmtable) =="
-  if need wget "apt/yum install wget" && need gunzip "gzip package"; then
+  if need curl "curl package" && need gunzip "gzip package"; then
     mkdir -p "$TARGET/azure"
-    URL="https://azurecloudpublicdataset2.blob.core.windows.net/azurepublicdatasetv2/trace_data/vmtable/vmtable.csv.gz"
-    wget -c -O "$TARGET/azure/vmtable.csv.gz" "$URL"
+    URL="https://github.com/Azure/AzurePublicDataset/releases/download/dataset-v2/trace_data_vmtable_vmtable.csv.gz"
+    curl -fL -C - -o "$TARGET/azure/vmtable.csv.gz" "$URL"
     gunzip -kf "$TARGET/azure/vmtable.csv.gz"
     echo "  -> $TARGET/azure/vmtable.csv"
   else
