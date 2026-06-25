@@ -1,0 +1,23 @@
+[
+  {"jobid": "app0001", "user": "u1", "vc": "vc1", "status": "Pass",
+   "submitted_time": "2017-10-08 15:55:00",
+   "attempts": [{"start_time": "2017-10-08 16:00:00", "end_time": "2017-10-08 18:00:00",
+                 "detail": [{"ip": "m1", "status": "Pass", "gpus": ["gpu0"]}]}]},
+  {"jobid": "app0002", "user": "u2", "vc": "vc1", "status": "Pass",
+   "submitted_time": "2017-10-08 16:10:00",
+   "attempts": [{"start_time": "2017-10-08 16:12:00", "end_time": "2017-10-08 20:00:00",
+                 "detail": [{"ip": "m2", "status": "Pass", "gpus": ["gpu0", "gpu1"]}]}]},
+  {"jobid": "app0003", "user": "u1", "vc": "vc2", "status": "Killed",
+   "submitted_time": "2017-10-08 16:30:00",
+   "attempts": [{"start_time": "2017-10-08 16:35:00", "end_time": "2017-10-08 16:50:00",
+                 "detail": [{"ip": "m3", "status": "Killed", "gpus": ["gpu0", "gpu1", "gpu2", "gpu3"]}]}]},
+  {"jobid": "app0004", "user": "u3", "vc": "vc2", "status": "Pass",
+   "submitted_time": "2017-10-08 17:00:00",
+   "attempts": [{"start_time": "2017-10-08 17:05:00", "end_time": "2017-10-09 01:00:00",
+                 "detail": [{"ip": "m4", "status": "Pass", "gpus": ["gpu0", "gpu1", "gpu2", "gpu3"]},
+                            {"ip": "m5", "status": "Pass", "gpus": ["gpu0", "gpu1", "gpu2", "gpu3"]}]}]},
+  {"jobid": "app0005", "user": "u2", "vc": "vc1", "status": "Failed",
+   "submitted_time": "2017-10-08 17:20:00",
+   "attempts": [{"start_time": "2017-10-08 17:25:00", "end_time": "2017-10-08 17:40:00",
+                 "detail": [{"ip": "m1", "status": "Failed", "gpus": []}]}]}
+]

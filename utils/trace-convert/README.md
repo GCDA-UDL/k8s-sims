@@ -1,4 +1,4 @@
-# Trace converters — Google Borg & Azure → k8s-sims datasets
+# Trace converters — Google Borg, Azure & Philly → k8s-sims datasets
 
 The toolkit was built around Alibaba traces (`utils/base/{nodes,pods}.yaml`).
 These converters add two more public workload sources by emitting the **same**
@@ -37,13 +37,31 @@ python utils/trace-convert/azure2base.py \
 ./kube-run.sh -m kcs -e data/azure-small -o results/kcs-azure.csv
 ```
 
+## Microsoft Philly (GPU) — `philly2base.py`
+
+- Source: [`msr-fiddle/philly-traces`](https://github.com/msr-fiddle/philly-traces) (the `cluster_job_log` JSON).
+- Each DNN-training job → a Pod requesting `nvidia.com/gpu` (the job's GPU count)
+  plus proportional cpu/memory (`--cpu-per-gpu` / `--mem-per-gpu`).
+- A homogeneous GPU node pool is synthesised (`--gpus-per-node`, default 8;
+  `--node-cpu` / `--node-mem`) large enough to host the requested GPUs.
+- This is the **only GPU-aware** converter, so it exercises GPU scheduling
+  (`nvidia.com/gpu`) rather than CPU/memory alone — pair it with a GPU-aware
+  scheduler to study GPU bin-packing/fractional placement.
+
+```sh
+python utils/trace-convert/philly2base.py \
+    --joblog cluster_job_log -o data/philly-small --max-pods 1000
+./kube-run.sh -m kcs -e data/philly-small -o results/kcs-philly.csv
+```
+
 ## Getting the real traces
 
 The public repos are mostly documentation + download scripts; the data lives on
-GCS / Azure Blob and is large (Borg 2019 is TB-scale, Azure VM trace is GB-scale).
-Download per the upstream instructions, then point the converters at the CSVs.
-`samples/` holds tiny synthetic CSVs **in the documented schemas** for testing the
-converters offline.
+GCS / Azure Blob / GitHub releases and is large (Borg 2019 is TB-scale, Azure VM
+trace is GB-scale, the Philly `cluster_job_log` is a large JSON). Download per the
+upstream instructions, then point the converters at the files. `samples/` holds
+tiny synthetic inputs **in the documented schemas** (CSV for Borg/Azure, JSON for
+Philly) for testing the converters offline.
 
 ## Verified (synthetic samples → kcs)
 
@@ -51,6 +69,7 @@ converters offline.
 |---|---|---|---|
 | Google Borg | 5 machines / 12 tasks | nodes-5 + pods-5 (12 pods) | 0 unscheduled |
 | Azure | 8 VMs | nodes-3 (synth) + pods-3 (8 pods) | 0 unscheduled |
+| Philly (GPU) | 5 jobs | nodes-2 (synth, 8 GPU/node) + pods-2 (5 pods, 16 GPUs) | GPU-aware (needs a GPU-scheduling sim) |
 
 Both validated end-to-end: `samples/*.csv` → converter → toolkit dataset → a real
 simulator run. Full-trace runs only need the user to drop in the downloaded CSVs.

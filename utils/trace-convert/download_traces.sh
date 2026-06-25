@@ -11,31 +11,33 @@
 #   TARGET/borg/task_events.csv         -> borg2base.py --tasks
 #   TARGET/azure/vmtable.csv            -> azure2base.py --vmtable
 #   TARGET/alibaba/clusterdata/...      -> cluster-trace-gpu-v2023 (full GPU trace)
+#   TARGET/philly/philly-traces/...     -> cluster_job_log (GPU DNN training)
 #
 # Usage:
 #   ./download_traces.sh --all                 # everything, into ./traces
 #   ./download_traces.sh --borg --azure -o /data/traces
-#   ./download_traces.sh --azure               # just one source
+#   ./download_traces.sh --philly              # just one source
 #
 # Tools: bash, curl, gunzip, git; gsutil for Borg (pip install gsutil).
 set -euo pipefail
 
 TARGET="./traces"
-DO_ALIBABA=0; DO_BORG=0; DO_AZURE=0
+DO_ALIBABA=0; DO_BORG=0; DO_AZURE=0; DO_PHILLY=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --all)     DO_ALIBABA=1; DO_BORG=1; DO_AZURE=1 ;;
+    --all)     DO_ALIBABA=1; DO_BORG=1; DO_AZURE=1; DO_PHILLY=1 ;;
     --alibaba) DO_ALIBABA=1 ;;
     --borg)    DO_BORG=1 ;;
     --azure)   DO_AZURE=1 ;;
+    --philly)  DO_PHILLY=1 ;;
     -o|--out)  TARGET="$2"; shift ;;
-    -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,31p' "$0"; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
   shift
 done
-[ $((DO_ALIBABA+DO_BORG+DO_AZURE)) -eq 0 ] && { echo "nothing selected; use --all or --alibaba/--borg/--azure"; exit 2; }
+[ $((DO_ALIBABA+DO_BORG+DO_AZURE+DO_PHILLY)) -eq 0 ] && { echo "nothing selected; use --all or --alibaba/--borg/--azure/--philly"; exit 2; }
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "MISSING TOOL: $1 ($2)"; return 1; }; }
 mkdir -p "$TARGET"
@@ -89,6 +91,22 @@ if [ "$DO_ALIBABA" = 1 ]; then
   fi
 fi
 
+# ---- Microsoft Philly (GPU DNN training, cluster_job_log) ------------------
+if [ "$DO_PHILLY" = 1 ]; then
+  echo "== Philly (msr-fiddle/philly-traces) =="
+  if need git "git package"; then
+    mkdir -p "$TARGET/philly"
+    if [ -d "$TARGET/philly/philly-traces/.git" ]; then
+      git -C "$TARGET/philly/philly-traces" pull --ff-only || true
+    else
+      git clone --depth 1 https://github.com/msr-fiddle/philly-traces "$TARGET/philly/philly-traces"
+    fi
+    echo "  -> cluster_job_log under $TARGET/philly/philly-traces/trace-data/ (gunzip if .gz)"
+  else
+    echo "  SKIPPED Philly"
+  fi
+fi
+
 cat <<EOF
 
 == done. Next: convert to toolkit datasets ==
@@ -99,6 +117,9 @@ cat <<EOF
   # Azure -> data/azure
   python "$(dirname "$0")/azure2base.py" \\
       --vmtable "$TARGET/azure/vmtable.csv" -o data/azure --max-pods 1000 --node-cpu 64 --node-mem 256
+  # Philly (GPU) -> data/philly
+  python "$(dirname "$0")/philly2base.py" \\
+      --joblog "$TARGET/philly/philly-traces/trace-data/cluster_job_log" -o data/philly --max-pods 1000
   # Alibaba is the built-in default of kube-gen.py (utils/base); no convert step needed.
 
 Then run a sim, e.g.:  ./kube-run.sh -m kcs -e data/borg -o results/kcs-borg.csv

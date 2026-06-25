@@ -3,7 +3,7 @@
 ## Trace sources
 
 The base manifests (`utils/base/{nodes,pods}.yaml`) the generator slices are
-derived from the **Alibaba** cluster trace (2023 GPU). Two more public sources
+derived from the **Alibaba** cluster trace (2023 GPU). Three more public sources
 are supported via converters that emit the **same** base format, so every
 simulator and `kube-gen.py` consume them unchanged (GCDA addition):
 
@@ -12,6 +12,7 @@ simulator and `kube-gen.py` consume them unchanged (GCDA addition):
 | Alibaba (default) | `github.com/alibaba/clusterdata` | built into `utils/base` |
 | Google Borg | `github.com/google/cluster-data` (ClusterData2011) | `utils/trace-convert/borg2base.py` |
 | Azure | `github.com/Azure/AzurePublicDataset` (vmtable) | `utils/trace-convert/azure2base.py` |
+| Philly (GPU) | `github.com/msr-fiddle/philly-traces` (cluster_job_log) | `utils/trace-convert/philly2base.py` |
 
 Full traces are large (GCS / Azure Blob) and downloaded by the user; tiny
 synthetic samples for offline testing live in `utils/trace-convert/samples/`.
@@ -39,11 +40,12 @@ python utils/kube-gen.py -o data/big -c 400 -i 50
 
 For simulator-specific formats, add the relevant flags such as `--kubemark`, `--simkube`, `--open_sim`, or `--k8ssim` (K8sSim Volcano) and record the exact command in the checkpoint log. The `kcs` simulator reuses the standard `vanilla` datasets directly (no flag).
 
-To generate from Google Borg or Azure traces instead of Alibaba:
+To generate from Google Borg, Azure or Philly traces instead of Alibaba:
 
 ```bash
 python utils/trace-convert/borg2base.py --machines machine_events.csv --tasks task_events.csv -o data/borg --max-nodes 100
 python utils/trace-convert/azure2base.py --vmtable vmtable.csv -o data/azure --max-pods 1000
+python utils/trace-convert/philly2base.py --joblog cluster_job_log -o data/philly --max-pods 1000  # GPU-aware (nvidia.com/gpu)
 ```
 
 ## Sensitive data
