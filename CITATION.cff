@@ -16,29 +16,29 @@ authors:
   - given-names: Matias Nicolas
     family-names: Medina Jara
     orcid: "https://orcid.org/0009-0000-2858-4317"
-    affiliation: "Universitat de Lleida"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
     # original author of v0.1 (TFG UdL 2025)
   - given-names: Vitor
     family-names: da Silva
     orcid: "https://orcid.org/0000-0002-3296-2752"
     email: vitor.dasilva@udl.cat
-    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
   - given-names: Rosana
     family-names: Tomàs
     orcid: "https://orcid.org/0000-0002-1995-3974"
-    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
   - given-names: Francesc
     family-names: Giné
     orcid: "https://orcid.org/0000-0002-2348-5018"
-    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
   - given-names: Fernando
     family-names: Guirado
     orcid: "https://orcid.org/0000-0003-1352-9555"
-    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
   - given-names: Josep Lluís
     family-names: Lérida
     orcid: "https://orcid.org/0000-0002-9352-9338"
-    affiliation: "Department of Computer Science and Industrial Engineering, Universitat de Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
 contact:
   - given-names: Vitor
     family-names: da Silva
