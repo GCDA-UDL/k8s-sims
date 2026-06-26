@@ -6,14 +6,12 @@
     { "name": "Medina Jara, Matias Nicolas", "orcid": "0009-0000-2858-4317", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
     { "name": "da Silva, Vitor", "orcid": "0000-0002-3296-2752", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
     { "name": "Tomàs, Rosana", "orcid": "0000-0002-1995-3974", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
-    { "name": "Cores, Fernando", "orcid": "0000-0003-2910-6709", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
     { "name": "Giné, Francesc", "orcid": "0000-0002-2348-5018", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
-    { "name": "Roig, Concepció", "orcid": "0000-0003-3029-3820", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
     { "name": "Guirado, Fernando", "orcid": "0000-0003-1352-9555", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" },
     { "name": "Lérida, Josep Lluís", "orcid": "0000-0002-9352-9338", "affiliation": "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain" }
   ],
   "license": "Apache-2.0",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "keywords": [
     "Kubernetes",
     "scheduler simulation",
