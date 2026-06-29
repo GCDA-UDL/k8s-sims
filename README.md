@@ -2,7 +2,7 @@
 
 # K8s-sims
 
-[![DOI](https://zenodo.org/badge/1269589933.svg)](https://doi.org/10.5281/zenodo.20694295)
+_DOI: the Zenodo archive is being re-released as **KubeSBS** — new DOI pending._
 
 K8sims is a repository containing a guide on how to run a selected number of Kubernetes simulators.
 
@@ -45,11 +45,9 @@ On top of the original five simulators it adds:
 ## Citing
 
 If you use this toolkit, please cite it via the metadata in
-[`CITATION.cff`](CITATION.cff). A versioned DOI is archived on Zenodo:
+[`CITATION.cff`](CITATION.cff). The Zenodo archive is being re-released as
+**KubeSBS**; a new DOI will be added here once minted.
 
-> Concept DOI (cite this — always resolves to the latest version):
-> [10.5281/zenodo.20694295](https://doi.org/10.5281/zenodo.20694295).
-> This release (v0.2.2): [10.5281/zenodo.20694296](https://doi.org/10.5281/zenodo.20694296).
 > Corresponding author: Vitor da Silva (vitor.dasilva@udl.cat).
 
 Attribution for the original work and bundled/integrated simulators is in
