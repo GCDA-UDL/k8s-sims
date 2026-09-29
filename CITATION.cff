@@ -1,5 +1,5 @@
 # Author order (maintainer decision): Medina (original, v0.1); da Silva (second +
-# corresponding); Tomàs; Giné; Guirado (penultimate, senior weight);
+# corresponding); Tomàs; Guirado (penultimate, senior weight);
 # Lérida (last, senior/PI).
 cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata."
@@ -26,10 +26,6 @@ authors:
   - given-names: Rosana
     family-names: Tomàs
     orcid: "https://orcid.org/0000-0002-1995-3974"
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
-  - given-names: Francesc
-    family-names: Giné
-    orcid: "https://orcid.org/0000-0002-2348-5018"
     affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
   - given-names: Fernando
     family-names: Guirado
