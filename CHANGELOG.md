@@ -24,6 +24,9 @@ First release under the **KubeSBS** name. The repository URL is unchanged
   generate the paper figures (`make_benchmark_bars.py`, `make_paper_plots.py`).
 - `results-repro/benchmark-all/`: small-scale benchmark (4 nodes, 400 pods), six
   simulators + vanilla Kubernetes, 3 runs each (2026-06-17).
+- `results-repro/benchmark-spoofing-20261022/`: pre-release re-run of that benchmark
+  with `utils/repro/run_sweep.sh` on the same server and runner image; it matches
+  the reference (see `utils/repro/README.md` and `COMPARE.txt` in that folder).
 - `utils/trace-convert/download_traces.sh`: fetches the Alibaba, Borg and Azure
   traces (and Philly with `--philly`).
 - `utils/trace-convert/philly2base.py`: Microsoft Philly GPU-trace converter

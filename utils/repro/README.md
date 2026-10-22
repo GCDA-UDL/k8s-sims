@@ -18,6 +18,10 @@ repository root.
 | `results-repro/benchmark-all` | `data/benchmark` (4 nodes, 400 pods) | opensim, kwok, kube-sched, simkube, kubemark, kcs, vanilla | 3 | 2× Xeon Silver 4210R (40 threads), 128 GB, Rocky Linux 9.3, cgroups v2; 2026-06-17 |
 | `results-repro/big-all` | `data/big` (100–1200 nodes) | opensim, kwok, kube-sched, simkube, kubemark, kcs | 3 | same server, 2026-06-15/17 (opensim re-run after the cgroup fix) |
 
+| Re-run | Result |
+|---|---|
+| `results-repro/benchmark-spoofing-20261022` (v0.3.0 pre-release, same server, same runner image) | All 7 configurations, 3/3 runs. Unscheduled pods: 0 for every tool except Kubemark (55–70 per run; 40–69 in `benchmark-all`). Run time, CPU time and peak memory within ±11 % for the tools that run longer than a few seconds; kcs and OpenSimulator (1–2 s, < 0.01 GB) match within the 1 s / 0.01 GB resolution. Full table: `COMPARE.txt`. |
+
 Re-run on that server to compare absolute numbers. `run_sweep.sh` uses the
 runner image already present on the host (`docker run` does not pull a newer
 `:latest`) and records its image ID in `RUN_INFO`.

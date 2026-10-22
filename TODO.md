@@ -18,6 +18,12 @@
       `PID2023-146193OB-I00` only; nothing else to add.
 - [x] **Sample parity:** borg/azure `.csv` samples force-added next to the Philly
       `.json` sample (v0.3.0).
+- [ ] **Re-run the big sweep** (`DATASET=big`, 6 simulators, 216 runs, several hours)
+      on the reference server with `utils/repro/run_sweep.sh` and compare with
+      `results-repro/big-all` (the benchmark re-run of 2026-10-22 already matches).
+- [ ] **vanilla pre-check:** every vanilla run first tries `data/test/vanilla/cluster-1.yaml`,
+      which does not exist, and logs "Cluster setup failed" (results go to `/tmp`, the
+      benchmark rows are unaffected). Add the file or skip the pre-check.
 - [ ] **Zenodo DOI for KubeSBS v0.3.0:** enable the repository in Zenodo's GitHub
       integration, publish the v0.3.0 GitHub release, then add the concept DOI to
       `CITATION.cff`, `README.md` and the survey's `k8s-sims` bib entry.
