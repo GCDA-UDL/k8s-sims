@@ -34,7 +34,7 @@ First release under the **KubeSBS** name. The repository URL is unchanged
 ### Shipped in v0.2.4 without a changelog entry
 
 - `results-repro/big-all/`: unified big sweep, six simulators, 100–1200 nodes,
-  3 runs each, on one 40-CPU host.
+  3 runs each, on one host (2× Xeon Silver 4210R, 40 threads, 128 GB, Rocky Linux 9.3).
 - Fixed (opensim): `cgcreate`/`cgexec`/`cgdelete` no longer use `sudo`; inside the
   container the cgroup measurement returned zeros. The opensim big sweep was re-run.
 
@@ -92,7 +92,7 @@ Desktop / WSL2 (cgroup v2); see `REPRODUCIBILITY_REPORT.md` for evidence.
 ### Assessed, not integrated
 
 - **Q8S** (QEMU/OpenStack heterogeneous-cluster emulator) — infeasible on a
-  WSL2/laptop host (needs KVM + OpenStack).
+  WSL2 desktop host (needs KVM + OpenStack).
 - **Reckon** (`AleSassi/reckon-k8s`) — runnable here (the OVS kernel module ships
   in the WSL2 kernel) but it is a network-fault / consensus-availability emulator,
   not a scheduler simulator, so it does not fit this benchmark's metric model.

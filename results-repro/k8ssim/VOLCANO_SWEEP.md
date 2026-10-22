@@ -48,4 +48,4 @@ these are timing snapshots of `/stepResult`, not capacity limits.
 - The harness's 1 s sampling of `memory.current` under-reports these fast runs;
   values above are `memory.peak` read per fresh cgroup, which is accurate.
 - Net: K8sSim closes the Volcano-coverage gap cheaply — a full policy sweep over
-  an Alibaba-scale workload runs in ~2 minutes on a laptop-class WSL2 VM.
+  an Alibaba-scale workload runs in ~2 minutes on a desktop WSL2 VM (28 vCPU / 15.5 GB).

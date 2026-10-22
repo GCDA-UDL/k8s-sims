@@ -15,8 +15,12 @@ repository root.
 
 | Folder | Dataset | Simulators | Runs | Host |
 |---|---|---|---|---|
-| `results-repro/benchmark-all` | `data/benchmark` (4 nodes, 400 pods) | opensim, kwok, kube-sched, simkube, kubemark, kcs, vanilla | 3 | 40-CPU / 125 GB server, 2026-06-17 |
+| `results-repro/benchmark-all` | `data/benchmark` (4 nodes, 400 pods) | opensim, kwok, kube-sched, simkube, kubemark, kcs, vanilla | 3 | 2× Xeon Silver 4210R (40 threads), 128 GB, Rocky Linux 9.3, cgroups v2; 2026-06-17 |
 | `results-repro/big-all` | `data/big` (100–1200 nodes) | opensim, kwok, kube-sched, simkube, kubemark, kcs | 3 | same server, 2026-06-15/17 (opensim re-run after the cgroup fix) |
+
+Re-run on that server to compare absolute numbers. `run_sweep.sh` uses the
+runner image already present on the host (`docker run` does not pull a newer
+`:latest`) and records its image ID in `RUN_INFO`.
 
 ## Re-run the benchmark and compare
 

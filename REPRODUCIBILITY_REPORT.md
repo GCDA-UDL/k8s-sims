@@ -17,7 +17,7 @@ backed by the real command output captured during this run.
 |---|---|
 | Do all 5 simulators run end-to-end? | **Yes** — kwok, opensim, kube-sched, simkube, kubemark (kubemark only after the fix in §4.1). |
 | Do the trends of `summary.json` reproduce? | **Yes** — kwok/opensim are the lightest, kubemark/simkube the heaviest (§3). |
-| Are the absolute numbers reproducible? | **No, nor should they be** — different host (28 vCPU / 15.5 GB vs 40-core / 128 GB) and we ran `test`/`small`, not `big`. Trends only. |
+| Are the absolute numbers reproducible? | **No, nor should they be** — different host (28 vCPU / 15.5 GB vs 40 threads / 128 GB) and we ran `test`/`small`, not `big`. Trends only. |
 | Is `docker compose up` deterministic as published? | **Partially** — see §4.2 (unpinned kube-prometheus), §4.3 (image ≠ repo HEAD), §4.4 (CRLF). |
 | Did anything fail silently? | **Yes — kubemark** produced a "successful" run with **every pod unscheduled** before the fix (§4.1). |
 
@@ -25,8 +25,9 @@ backed by the real command output captured during this run.
 
 ## 2. Environment actually used (verified)
 
-This is **not** the documented reference host (Alpine, 2× Xeon Silver 4210R, 128 GB). It is a
-Windows laptop driving Docker Desktop's WSL2 Linux VM. The point was to find out whether the toolkit
+This is **not** the documented reference host (2× Xeon Silver 4210R, 40 threads, 128 GB; the
+original README lists the OS of the Alpine runner container). It is a Windows desktop
+(i7-14700KF, 32 GB) driving Docker Desktop's WSL2 Linux VM. The point was to find out whether the toolkit
 runs at all off the original Linux box.
 
 **Host**

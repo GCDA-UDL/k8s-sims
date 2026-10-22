@@ -14,8 +14,8 @@
 - [x] Add **Matias Nicolas Medina Jara**'s ORCID (`0009-0000-2858-4317`) to
       `CITATION.cff` + `.zenodo.json`. (The old published Zenodo record was
       deleted; correct ORCIDs will ship with the KubeSBS re-upload.)
-- [ ] Confirm with the FACTOS project / UAB whether any funding acknowledgment
-      beyond MICIU `PID2023-146193OB-I00` must be added (shared-project check).
+- [x] Funding acknowledgment confirmed by the maintainer (2026-10-22): MICIU
+      `PID2023-146193OB-I00` only; nothing else to add.
 - [x] **Sample parity:** borg/azure `.csv` samples force-added next to the Philly
       `.json` sample (v0.3.0).
 - [ ] **Zenodo DOI for KubeSBS v0.3.0:** enable the repository in Zenodo's GitHub
