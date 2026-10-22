@@ -16,9 +16,11 @@
       deleted; correct ORCIDs will ship with the KubeSBS re-upload.)
 - [ ] Confirm with the FACTOS project / UAB whether any funding acknowledgment
       beyond MICIU `PID2023-146193OB-I00` must be added (shared-project check).
-- [ ] **Sample parity:** the Philly `.json` synthetic sample is committed, but the
-      borg/azure `.csv` samples under `utils/trace-convert/samples/` are gitignored.
-      Force-add them for parity: `git add -f utils/trace-convert/samples/*.csv`.
+- [x] **Sample parity:** borg/azure `.csv` samples force-added next to the Philly
+      `.json` sample (v0.3.0).
+- [ ] **Zenodo DOI for KubeSBS v0.3.0:** enable the repository in Zenodo's GitHub
+      integration, publish the v0.3.0 GitHub release, then add the concept DOI to
+      `CITATION.cff`, `README.md` and the survey's `k8s-sims` bib entry.
 - [ ] **Philly converter — real-trace + GPU run:** `philly2base.py` is validated on
       the synthetic sample only (5 jobs → 2 GPU nodes, 16 GPUs). Download the real
       `cluster_job_log` (`msr-fiddle/philly-traces`, via `download_traces.sh --philly`)
@@ -28,6 +30,5 @@
 
 ## Done (for reference)
 
-- [ ] ~~Software DOI on Zenodo (concept `10.5281/zenodo.20694295`)~~ — **record
-      DELETED 2026-06-29.** Re-release the artifact as **KubeSBS** with a new DOI,
-      then update CITATION.cff, README, and .zenodo.json.
+- [x] ~~Software DOI on Zenodo (concept `10.5281/zenodo.20694295`)~~ — **record
+      DELETED 2026-06-29.** Renamed to **KubeSBS** in v0.3.0 (DOI item above).

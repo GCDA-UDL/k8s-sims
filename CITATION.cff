@@ -1,11 +1,11 @@
-# Author order (maintainer decision): Medina (original, v0.1); da Silva (second +
-# corresponding); Tomàs; Guirado (penultimate, senior weight);
-# Lérida (last, senior/PI).
+# Author order (maintainer decision, 2026-10-22; same as the KubeSBS paper):
+# Medina (original author, v0.1); Tomàs; Lérida; Guirado;
+# da Silva (last, corresponding/contact).
 cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata."
-title: "k8s-sims: a benchmarking toolkit for Kubernetes scheduler simulators"
+title: "KubeSBS: a reproducible benchmarking suite for Kubernetes simulators"
 abstract: >-
-  k8s-sims orchestrates and benchmarks Kubernetes scheduler simulators
+  KubeSBS (formerly k8s-sims) orchestrates and benchmarks Kubernetes scheduler simulators
   (kwok, OpenSimulator, kube-scheduler-simulator, SimKube, Kubemark, K8sSim/Volcano,
   and the pfn k8s-cluster-simulator) over Alibaba, Google Borg, and Azure cluster
   traces, reporting CPU, memory, run time, and scheduling outcomes. Developed by
@@ -16,25 +16,25 @@ authors:
   - given-names: Matias Nicolas
     family-names: Medina Jara
     orcid: "https://orcid.org/0009-0000-2858-4317"
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "SEMBAC, Universitat de Lleida, Edifici CREA, C/Pere de Cabrera s/n. 25001 Lleida (Spain)"
     # original author of v0.1 (TFG UdL 2025)
+  - given-names: Rosana
+    family-names: Tomàs
+    orcid: "https://orcid.org/0000-0002-1995-3974"
+    affiliation: "SEMBAC, Universitat de Lleida, Edifici CREA, C/Pere de Cabrera s/n. 25001 Lleida (Spain)"
+  - given-names: Josep Lluís
+    family-names: Lérida
+    orcid: "https://orcid.org/0000-0002-9352-9338"
+    affiliation: "SEMBAC, Universitat de Lleida, Edifici CREA, C/Pere de Cabrera s/n. 25001 Lleida (Spain)"
+  - given-names: Fernando
+    family-names: Guirado
+    orcid: "https://orcid.org/0000-0003-1352-9555"
+    affiliation: "SEMBAC, Universitat de Lleida, Edifici CREA, C/Pere de Cabrera s/n. 25001 Lleida (Spain)"
   - given-names: Vitor
     family-names: da Silva
     orcid: "https://orcid.org/0000-0002-3296-2752"
     email: vitor.dasilva@udl.cat
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
-  - given-names: Rosana
-    family-names: Tomàs
-    orcid: "https://orcid.org/0000-0002-1995-3974"
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
-  - given-names: Fernando
-    family-names: Guirado
-    orcid: "https://orcid.org/0000-0003-1352-9555"
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
-  - given-names: Josep Lluís
-    family-names: Lérida
-    orcid: "https://orcid.org/0000-0002-9352-9338"
-    affiliation: "Department of Computer Engineering and Digital Design, University of Lleida, Jaume II 69, 25001 Lleida, Spain"
+    affiliation: "SEMBAC, Universitat de Lleida, Edifici CREA, C/Pere de Cabrera s/n. 25001 Lleida (Spain)"
 contact:
   - given-names: Vitor
     family-names: da Silva
@@ -42,11 +42,12 @@ contact:
     orcid: "https://orcid.org/0000-0002-3296-2752"
 license: Apache-2.0
 repository-code: "https://github.com/GCDA-UDL/k8s-sims"
-# DOI: the earlier Zenodo record was deleted; the artifact will be re-released
-# as "KubeSBS" with a new DOI (to be added here once minted).
-version: 0.2.5
-date-released: "2026-06-26"
+# DOI: the earlier Zenodo record (k8s-sims) was deleted; v0.3.0 is the first
+# KubeSBS release, archived on Zenodo under a new DOI (concept DOI to be added here).
+version: 0.3.0
+date-released: "2026-10-22"
 keywords:
+  - KubeSBS
   - Kubernetes
   - scheduler simulation
   - cluster simulator

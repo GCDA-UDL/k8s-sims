@@ -1,10 +1,12 @@
 
 
-# K8s-sims
+# KubeSBS — a reproducible benchmarking suite for Kubernetes simulators
 
-_DOI: the Zenodo archive is being re-released as **KubeSBS** — new DOI pending._
+_Formerly **k8s-sims**. DOI: assigned by Zenodo on the v0.3.0 release (pending)._
 
-K8sims is a repository containing a guide on how to run a selected number of Kubernetes simulators.
+KubeSBS runs a selected number of Kubernetes simulators on the same trace-derived
+workloads and measures their CPU, memory, run time and scheduling outcomes. The
+original guide for running each simulator follows below.
 
 ## About this fork (GCDA)
 
@@ -37,6 +39,7 @@ On top of the original five simulators it adds:
 | kcs (pfn) module | [modules/kcs/README.md](modules/kcs/README.md) |
 | Borg / Azure trace converters | [utils/trace-convert/README.md](utils/trace-convert/README.md) |
 | Volcano scheduler sweep results | [results-repro/k8ssim/VOLCANO_SWEEP.md](results-repro/k8ssim/VOLCANO_SWEEP.md) |
+| Re-run the published sweeps, compare runs, regenerate the paper figures | [utils/repro/README.md](utils/repro/README.md) |
 
 > The original five simulators (kwok, opensim, kube-sched, simkube, kubemark) run
 > via `docker compose up` / `kube-director.sh` as below. The two new simulators
@@ -44,9 +47,9 @@ On top of the original five simulators it adds:
 
 ## Citing
 
-If you use this toolkit, please cite it via the metadata in
-[`CITATION.cff`](CITATION.cff). The Zenodo archive is being re-released as
-**KubeSBS**; a new DOI will be added here once minted.
+If you use KubeSBS, please cite it via the metadata in
+[`CITATION.cff`](CITATION.cff). The earlier k8s-sims Zenodo record was deleted;
+the Zenodo DOI of KubeSBS will be added here once minted.
 
 > Corresponding author: Vitor da Silva (vitor.dasilva@udl.cat).
 

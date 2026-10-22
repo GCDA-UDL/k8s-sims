@@ -1,9 +1,44 @@
 # Changelog
 
-All notable changes to the GCDA fork of k8s-sims. The original toolkit by
-Matias Medina (TFG UdL 2025) is tagged **`v0.1`** and is the baseline below.
+All notable changes to KubeSBS (formerly the GCDA fork of k8s-sims). The original
+toolkit by Matias Medina (TFG UdL 2025) is tagged **`v0.1`** and is the baseline below.
 
-## [Unreleased] — GCDA (2026-06)
+## [v0.3.0] — KubeSBS (2026-10-22)
+
+First release under the **KubeSBS** name. The repository URL is unchanged
+(`GCDA-UDL/k8s-sims`). The earlier k8s-sims Zenodo record was deleted on
+2026-06-29; this release is archived on Zenodo under a new DOI.
+
+### Renamed and metadata
+
+- Title, `README.md`, `CITATION.cff` and `.zenodo.json` renamed to KubeSBS;
+  version 0.3.0 (0.2.5 was never tagged).
+- Author list and order: Medina, Tomàs, Lérida, Guirado, da Silva (corresponding).
+  Affiliation: SEMBAC, Universitat de Lleida.
+
+### Added
+
+- `utils/repro/`: `run_sweep.sh` (containerised re-run of any dataset and set of
+  simulators, writing `RUN_INFO` with host, commit and image), `compare_runs.py`
+  (new run vs. reference, per simulator and node count), and the two scripts that
+  generate the paper figures (`make_benchmark_bars.py`, `make_paper_plots.py`).
+- `results-repro/benchmark-all/`: small-scale benchmark (4 nodes, 400 pods), six
+  simulators + vanilla Kubernetes, 3 runs each (2026-06-17).
+- `utils/trace-convert/download_traces.sh`: fetches the Alibaba, Borg and Azure
+  traces (and Philly with `--philly`).
+- `utils/trace-convert/philly2base.py`: Microsoft Philly GPU-trace converter
+  (validated on the synthetic sample only).
+- Synthetic Borg and Azure sample CSVs committed under
+  `utils/trace-convert/samples/` (they were gitignored).
+
+### Shipped in v0.2.4 without a changelog entry
+
+- `results-repro/big-all/`: unified big sweep, six simulators, 100–1200 nodes,
+  3 runs each, on one 40-CPU host.
+- Fixed (opensim): `cgcreate`/`cgexec`/`cgdelete` no longer use `sudo`; inside the
+  container the cgroup measurement returned zeros. The opensim big sweep was re-run.
+
+## [v0.2.0 – v0.2.4] — GCDA (2026-06)
 
 Continuation by GCDA (Grupo de Computación Distribuida y Avanzada), Universitat de Lleida of
 Matias Medina's toolkit. Verified reproducibility, fixed a silent benchmark bug,
