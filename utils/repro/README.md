@@ -1,0 +1,39 @@
+# Reproduction scripts
+
+Scripts that re-run the published experiments and regenerate the figures from
+the CSVs in [`results-repro/`](../../results-repro). Run them from the
+repository root.
+
+| Script | Purpose |
+|---|---|
+| [`run_sweep.sh`](run_sweep.sh) | Runs a dataset over a set of simulators in the runner container and writes `<sim>.csv`, `SIM_MODULES` and `RUN_INFO` (host, commit, image) to the output folder. |
+| [`compare_runs.py`](compare_runs.py) | Compares a new run with a reference folder, per simulator and node count. |
+| [`make_benchmark_bars.py`](make_benchmark_bars.py) | Bar figure of the small-scale benchmark (6 simulators + vanilla). |
+| [`make_paper_plots.py`](make_paper_plots.py) | Line plots of the big sweep (6 simulators, 100–1200 nodes). |
+
+## Reference results
+
+| Folder | Dataset | Simulators | Runs | Host |
+|---|---|---|---|---|
+| `results-repro/benchmark-all` | `data/benchmark` (4 nodes, 400 pods) | opensim, kwok, kube-sched, simkube, kubemark, kcs, vanilla | 3 | 40-CPU / 125 GB server, 2026-06-17 |
+| `results-repro/big-all` | `data/big` (100–1200 nodes) | opensim, kwok, kube-sched, simkube, kubemark, kcs | 3 | same server, 2026-06-15/17 (opensim re-run after the cgroup fix) |
+
+## Re-run the benchmark and compare
+
+```bash
+bash utils/repro/run_sweep.sh            # DATASET=benchmark, 7 modules, RUNS=3
+python3 utils/repro/compare_runs.py results-repro/benchmark-all results-repro/benchmark-<host>-<date>
+```
+
+Run times and resource use depend on the host; the number of unscheduled pods
+should match.
+
+## Regenerate the figures
+
+```bash
+python3 utils/repro/make_benchmark_bars.py --results results-repro/benchmark-all \
+    --out bars_run_time_total_cpu_seconds_memory_peak_gb_unscheduled_pods.png
+python3 utils/repro/make_paper_plots.py --results results-repro/big-all --out figures-out
+```
+
+Requires `matplotlib`.

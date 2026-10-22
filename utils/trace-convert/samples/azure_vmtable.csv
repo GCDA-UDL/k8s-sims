@@ -1,0 +1,8 @@
+vm0,sub0,dep0,0,3600,80,20,75,Interactive,2,8
+vm1,sub0,dep0,0,7200,60,15,55,Delay-insensitive,4,16
+vm2,sub1,dep1,100,3600,90,40,85,Interactive,8,32
+vm3,sub1,dep1,100,9000,30,10,28,Delay-insensitive,1,2
+vm4,sub2,dep2,200,3600,70,25,65,Unknown,16,64
+vm5,sub2,dep2,200,3600,50,20,48,Interactive,2,8
+vm6,sub3,dep3,300,7200,40,12,38,Delay-insensitive,4,16
+vm7,sub3,dep3,300,3600,95,60,92,Interactive,8,32
