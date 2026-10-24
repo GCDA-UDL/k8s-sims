@@ -45,3 +45,29 @@ python3 utils/repro/make_paper_plots.py --results results-repro/big-all --out fi
 ```
 
 Requires `matplotlib`.
+
+## Host requirements for the big sweep
+
+Found while re-running `data/big` on the reference server (2026-10-23/24):
+
+- **Name resolution from containers.** Every simulator cluster pulls images. When
+  the site DNS stopped answering containers, SimKube failed and Kubemark left every
+  pod unscheduled. `run_sweep.sh` now checks resolution before starting; if it
+  fails, pass public resolvers with `DNS="8.8.8.8 1.1.1.1"`.
+- **Kernel neighbour (ARP) table.** With the default
+  `net.ipv4.neigh.default.gc_thresh3=1024`, Kubemark at ~700 hollow nodes
+  overflows the table (`dmesg: neighbor table overflow`) and every container on
+  the host loses network access. Raise it before a big Kubemark run:
+
+  ```bash
+  sudo sysctl -w net.ipv4.neigh.default.gc_thresh1=4096 \
+                 net.ipv4.neigh.default.gc_thresh2=8192 \
+                 net.ipv4.neigh.default.gc_thresh3=16384
+  ```
+
+  `run_sweep.sh` refuses to run Kubemark on a dataset other than `benchmark`/`test`
+  while `gc_thresh3` is below 8192 (`PREFLIGHT=0` skips both checks).
+- **A time limit.** The scheduling wait queries the events of every pending pod
+  in turn; with thousands of pods and a slow API server one pass can take hours.
+  `MAX_TIME` (default 7200 s, about 3× the longest June-2026 run) is now also
+  checked inside that pass.

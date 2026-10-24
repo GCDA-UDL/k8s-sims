@@ -14,7 +14,11 @@
 #   OUT            output folder                    (default: results-repro/<DATASET>-<host>-<yyyymmdd>)
 #   IMAGE          runner image                     (default: thesmuks/k8s-sims:latest)
 #   MEM_THRESHOLD  host memory threshold, percent   (default: 95)
-#   MAX_TIME       max seconds per simulation       (default: -1, no limit)
+#   MAX_TIME       max seconds per simulation       (default: 7200; -1 = no limit. The longest
+#                                                    June-2026 run took 2161 s)
+#   DNS            space-separated DNS servers for the runner container, e.g. "8.8.8.8 1.1.1.1"
+#                  (default: the host's resolver)
+#   PREFLIGHT      1 = check name resolution and the host ARP table limit first (default: 1)
 #
 # Compare the new run with the published reference afterwards, e.g.:
 #   python3 utils/repro/compare_runs.py results-repro/benchmark-all "$OUT"
@@ -25,11 +29,40 @@ MODULES="${MODULES:-opensim kwok kube-sched simkube kubemark kcs vanilla}"
 RUNS="${RUNS:-3}"
 IMAGE="${IMAGE:-thesmuks/k8s-sims:latest}"
 MEM_THRESHOLD="${MEM_THRESHOLD:-95}"
-MAX_TIME="${MAX_TIME:--1}"
+MAX_TIME="${MAX_TIME:-7200}"
+DNS="${DNS:-}"
+PREFLIGHT="${PREFLIGHT:-1}"
 OUT="${OUT:-results-repro/${DATASET}-$(hostname -s)-$(date +%Y%m%d)}"
 
 [[ -f kube-director.sh ]] || { echo "Run this from the repository root."; exit 1; }
 [[ -d "data/${DATASET}" ]] || { echo "Dataset not found: data/${DATASET}"; exit 1; }
+
+dns_flags=()
+for d in $DNS; do dns_flags+=(--dns "$d"); done
+
+neigh() { cat "/proc/sys/net/ipv4/neigh/default/$1" 2>/dev/null || echo unknown; }
+
+if [[ "$PREFLIGHT" = "1" ]]; then
+  echo "==> Preflight: name resolution from a container"
+  # Every simulator cluster pulls images; without DNS the runs fail or leave
+  # every pod unscheduled.
+  if ! docker run --rm "${dns_flags[@]}" --entrypoint nslookup "$IMAGE" quay.io 2>&1 | grep -q '^Name:'; then
+    echo "Containers cannot resolve quay.io, so images cannot be pulled." >&2
+    echo "Fix the host DNS or set DNS=\"8.8.8.8 1.1.1.1\"." >&2
+    exit 1
+  fi
+  # Kubemark runs hundreds of hollow-node pods; past the kernel's neighbour
+  # (ARP) table limit, every container on the host loses network access.
+  if [[ " $MODULES " == *" kubemark "* && "$DATASET" != "benchmark" && "$DATASET" != "test" ]]; then
+    thresh3="$(neigh gc_thresh3)"
+    if [[ "$thresh3" =~ ^[0-9]+$ ]] && (( thresh3 < 8192 )); then
+      echo "net.ipv4.neigh.default.gc_thresh3=$thresh3 is too low for Kubemark at this scale." >&2
+      echo "Raise it first (as root):" >&2
+      echo "  sysctl -w net.ipv4.neigh.default.gc_thresh1=4096 net.ipv4.neigh.default.gc_thresh2=8192 net.ipv4.neigh.default.gc_thresh3=16384" >&2
+      exit 1
+    fi
+  fi
+fi
 
 mkdir -p "$OUT"
 OUT_ABS="$(cd "$OUT" && pwd)"
@@ -52,6 +85,9 @@ printf '%s\n' $MODULES > "$OUT_ABS/SIM_MODULES"
   echo "dataset=${DATASET}"
   echo "modules=$(paste -sd' ' "$OUT_ABS/SIM_MODULES")"
   echo "runs=${RUNS}"
+  echo "max_time=${MAX_TIME}"
+  echo "dns=${DNS:-host}"
+  echo "neigh_gc_thresh=$(neigh gc_thresh1)/$(neigh gc_thresh2)/$(neigh gc_thresh3)"
   echo "cpus=$(nproc)"
   echo "mem_kb=$(awk '/MemTotal/ {print $2}' /proc/meminfo)"
 } > "$OUT_ABS/RUN_INFO"
@@ -63,6 +99,7 @@ if [[ -f modules/kcs/kcs-yamlsim ]]; then
 fi
 
 docker run --rm --privileged --cgroupns host \
+  "${dns_flags[@]}" \
   -e CONTAINERIZED=true \
   -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
   -v "$PWD/data":/data:ro \

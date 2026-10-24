@@ -18,9 +18,16 @@
       `PID2023-146193OB-I00` only; nothing else to add.
 - [x] **Sample parity:** borg/azure `.csv` samples force-added next to the Philly
       `.json` sample (v0.3.0).
-- [ ] **Re-run the big sweep** (`DATASET=big`, 6 simulators, 216 runs, several hours)
-      on the reference server with `utils/repro/run_sweep.sh` and compare with
-      `results-repro/big-all` (the benchmark re-run of 2026-10-22 already matches).
+- [ ] **Re-run the big sweep** (`DATASET=big`, 6 simulators, 216 runs) and compare
+      with `results-repro/big-all`. 2026-10-22/24: opensim, kwok and kube-sched done
+      (108 runs, match June); SimKube and Kubemark broke when the site DNS stopped
+      answering containers and the host ARP table overflowed; kcs never ran.
+      Re-run simkube, kubemark and kcs with `gc_thresh3` raised.
+- [ ] **Kubemark at scale — check before writing about it.** In `big-all` Kubemark
+      leaves 21 % of the pods unscheduled at 200 nodes and 77 % at 800, on a host with
+      the default `gc_thresh3=1024`. Compare with the re-run on the raised limit: if
+      the share drops, the June Kubemark numbers were limited by the host, not by
+      Kubemark. Also note that its run time includes the harness's per-pod event scan.
 - [ ] **vanilla pre-check:** every vanilla run first tries `data/test/vanilla/cluster-1.yaml`,
       which does not exist, and logs "Cluster setup failed" (results go to `/tmp`, the
       benchmark rows are unaffected). Add the file or skip the pre-check.

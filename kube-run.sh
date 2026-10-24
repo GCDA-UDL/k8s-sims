@@ -363,6 +363,11 @@ watch_pod_scheduling(){
             fi
             local FAILURE_COUNT=0
             for pod_name in "${PENDING_PODS[@]}"; do
+                # One pass queries the events of every pending pod; with thousands of
+                # pods and a slow API server a single pass can take hours, so the max
+                # simulation time must also be checked inside it.
+                check_max_time
+                [[ $RUN_CONDITION = "true" ]] || break
                 local FAILURE_DETECTED
                 FAILURE_DETECTED=$(kubectl get events -n "$NAMESPACE" \
                     --field-selector "involvedObject.name=$pod_name" 2>/dev/null | \

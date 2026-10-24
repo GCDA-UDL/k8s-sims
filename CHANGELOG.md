@@ -33,6 +33,16 @@ First release under the **KubeSBS** name. The repository URL is unchanged
   (validated on the synthetic sample only).
 - Synthetic Borg and Azure sample CSVs committed under
   `utils/trace-convert/samples/` (they were gitignored).
+- `run_sweep.sh`: `DNS` option, `MAX_TIME` default of 7200 s, and a preflight
+  that stops when containers cannot resolve names or when the host neighbour (ARP)
+  table limit is too low for Kubemark at scale (see `utils/repro/README.md`).
+
+### Fixed
+
+- `kube-run.sh`: the maximum simulation time (`-x`) is also checked inside the
+  per-pod event scan of the scheduling wait. Before, one pass over thousands of
+  pending pods could run for hours without ever checking it (a Kubemark run at
+  700 nodes waited 21 h during the 2026-10-23 network outage).
 
 ### Shipped in v0.2.4 without a changelog entry
 
